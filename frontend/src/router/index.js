@@ -18,6 +18,30 @@ const routes = [
           requiresAuth: false,
         },
       },
+      {
+        path: '/books/view/:bookId',
+        name: 'View Book',
+        component: () => import('@/views/books/ViewBook.vue'),
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: '/books/book',
+        name: 'Book',
+        component: () => import('@/views/books/Book.vue'),
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: '/books/edit/:bookId?',
+        name: 'Edit Book',
+        component: () => import('@/views/books/Book.vue'),
+        meta: {
+          requiresAuth: false,
+        },
+      },
     ],
   },
   {

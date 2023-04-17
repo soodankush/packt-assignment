@@ -3,11 +3,13 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
+          <CAlert color="danger" v-show="errorMessage !== ''">{{
+            errorMessage
+          }}</CAlert>
           <div class="card-body">
             <table class="table table-striped table-hover">
               <thead>
                 <tr>
-                  <!-- <th scope="col">Sr. No.</th> -->
                   <th scope="col">Title</th>
                   <th scope="col">Author</th>
                   <th scope="col">ISBN</th>
@@ -18,7 +20,6 @@
               </thead>
               <tbody>
                 <tr v-for="(book, index) in booksData.data" :key="index">
-                  <!-- <th scope="row">{{ index + 1 }}</th> -->
                   <td>
                     <h6>{{ book.title }}</h6>
                   </td>
@@ -27,9 +28,17 @@
                   <td>{{ book.published_at }}</td>
                   <td>{{ book.publisher }}</td>
                   <td>
-                    <a class="actionLink"><font-awesome-icon icon="eye" /></a>
-                    <a class="actionLink"><font-awesome-icon icon="edit" /></a>
-                    <a class="actionLink"><font-awesome-icon icon="trash" /></a>
+                    <a class="actionLink"
+                      ><font-awesome-icon
+                        icon="eye"
+                        @click="viewBookDetails(book.id)"
+                    /></a>
+                    <a class="actionLink" @click="editBook(book.id)"
+                      ><font-awesome-icon icon="edit"
+                    /></a>
+                    <a class="actionLink" @click="deleteBook(book.id)"
+                      ><font-awesome-icon icon="trash"
+                    /></a>
                   </td>
                 </tr>
               </tbody>
@@ -60,6 +69,7 @@ export default {
       page: 0,
       totalRecords: 0,
       perPage: 10,
+      errorMessage: '',
     }
   },
   async mounted() {
@@ -85,6 +95,29 @@ export default {
           console.log(`Error Response`)
           console.log(error)
         })
+    },
+    async deleteBook(bookId) {
+      let self = this
+      await axios
+        .delete(`https://packt.test/api/books/${bookId}`)
+        .then((response) => {
+          console.log(response)
+          console.log(`response`)
+          if (response.status === 204) {
+            self.getBooksData()
+          }
+        })
+        .catch((error) => {
+          console.log(`error`)
+          console.log(error)
+          self.errorMessage = 'Error deleteing book'
+        })
+    },
+    async viewBookDetails(bookId) {
+      this.$router.push(`/books/view/${bookId}`)
+    },
+    async editBook(bookId) {
+      this.$router.push(`/books/edit/${bookId}`)
     },
   },
 }
