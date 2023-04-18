@@ -11,6 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEdit, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Pagination from 'v-pagination-3'
+import Toaster from '@meforma/vue-toaster'
 
 const app = createApp(App)
 
@@ -24,4 +25,5 @@ app.component('CIcon', CIcon)
 app.component('DocsExample', DocsExample)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.component('pagination', Pagination)
+app.use(Toaster)
 app.mount('#app')

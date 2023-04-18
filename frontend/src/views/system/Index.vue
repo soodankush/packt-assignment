@@ -21,21 +21,15 @@
             type="text"
             id="search"
             class="bg-light"
-            placeholder="Search title, authors, isbn, publication date, genre"
+            placeholder="Press enter to search title, authors, isbn, publication date, genre"
             v-model="searchTerm"
             @change="getBooksData"
           /><span class="fa fa-search text-muted"></span>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"
-            ><span class="fa fa-user-o"></span
-            ><span class="text">Login</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"
-            ><span class="fa fa-shopping-cart"></span
-            ><span class="text">Cart</span></a
+        <li class="nav-item float-right">
+          <!-- <a class="nav-link admin-link" href="/">Go To Admin Panel</a> -->
+          <router-link class="nav-link admin-link" to="/books" exact
+            >Go To Admin Panel</router-link
           >
         </li>
       </ul>
@@ -261,6 +255,9 @@ export default {
         this.selectedFilters[filterType].push(filterData)
       }
       this.getBooksData()
+    },
+    goToDashboard() {
+      console.log('hello')
     },
   },
 }
@@ -620,5 +617,9 @@ h6 {
   height: 100px;
   overflow: scroll;
   margin-bottom: 10px;
+}
+
+.admin-link {
+  text-decoration: underline;
 }
 </style>

@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Carbon\Carbon;
 use App\Models\Book;
 use App\Http\Requests\BookRequest;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -210,6 +211,48 @@ class BookController extends Controller
                 'error'      => $e->getMessage(),
             ], 500);
 
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success'   =>  false,
+                'message'   =>  $validator->errors(),
+                'filePath'  =>  null
+            ]);
+        }
+
+        try {
+            if($request->has('image')) {
+                $imageName = time().'_'.$request->image->getClientOriginalName();
+                $filePath = $request->image->move(public_path('uploads'), $imageName);
+                $imagePath = asset('uploads/' . $filePath->getFileName());
+
+                return response()->json([
+                    'success'   =>  true,
+                    'message'   =>  'Image uploaded successfully.',
+                    'filePath'  =>  $imagePath
+                ], 201);
+            } else {
+                return response()->json([
+                    'success'   =>  false,
+                    'message'   =>  'Image upload failed',
+                    'filePath'  =>  null
+                ], 500);
+            }
+        } catch(\Exception $e) {
+            \Log::error($e);
+            return response()->json([
+                'success'   =>  false,
+                'message'   =>  'Image upload failed',
+                'filePath'  =>  null
+            ], 500);
         }
     }
 }

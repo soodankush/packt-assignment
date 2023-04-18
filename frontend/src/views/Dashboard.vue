@@ -73,6 +73,11 @@ export default {
     }
   },
   async mounted() {
+    this.$toast.show('Welcome to admin panel', {
+      type: 'info',
+      position: 'top-right',
+    })
+
     await this.getBooksData()
   },
   methods: {
@@ -101,10 +106,12 @@ export default {
       await axios
         .delete(`https://packt.test/api/books/${bookId}`)
         .then((response) => {
-          console.log(response)
-          console.log(`response`)
           if (response.status === 204) {
             self.getBooksData()
+            this.$toast.show('Book deleted successfully', {
+              type: 'error',
+              position: 'bottom',
+            })
           }
         })
         .catch((error) => {

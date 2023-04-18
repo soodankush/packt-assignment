@@ -27,4 +27,5 @@ Route::prefix('books')->group(function () {
     Route::post('/', 'App\Http\Controllers\BookController@store');
     Route::put('/{bookId}', 'App\Http\Controllers\BookController@update');
     Route::delete('/{bookId}', 'App\Http\Controllers\BookController@delete');
+    Route::post('/upload', 'App\Http\Controllers\BookController@upload');
 });
