@@ -64,12 +64,55 @@ class BookController extends Controller
         return $responseMessage;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $getBooksData = Book::paginate(10);
+        $perPage = $request->get('perPage') ?? 10;
+        $searchTerm = $request->get('search') ?? null;
+        $filters = $request->get('filters');
+        $authorFilter = $filters['author'] ?? [];
+        $genreFilter = $filters['genre'] ?? [];
+        $publishedAtFilter = $filters['published_at'] ?? [];
+        $publisherFilter = $filters['publisher'] ?? [];
+        $booksDataQuery = Book::query();
+        $booksDataQuery->when(count($authorFilter) > 0, function ($q) use ($authorFilter) {
+            $q->orWhereIn('author', $authorFilter);
+        });
+        $booksDataQuery->when(count($genreFilter) > 0, function ($q) use ($genreFilter) {
+            $q->whereIn('genre', $genreFilter);
+        });
+        $booksDataQuery->when(count($publishedAtFilter) > 0, function ($q) use ($publishedAtFilter) {
+            $q->whereIn(\DB::raw('YEAR(published_at)'), $publishedAtFilter);
+        });
+        $booksDataQuery->when(count($publisherFilter) > 0, function ($q) use ($publisherFilter) {
+            $q->whereIn('publisher', $publisherFilter);
+        });
+        $booksDataQuery->when($searchTerm, function ($q) use ($searchTerm) {
+            return $q->whereYear('published_at', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('author', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('publisher', 'like', '%' . $searchTerm . '%');
+        });
+        $getBooksData = $booksDataQuery->paginate($perPage);
         return response()->json([
             'success'   => true,
             'data'      => $getBooksData
+        ]);
+    }
+
+    public function filters()
+    {
+        $filters = [];
+        $filters['author'] = Book::groupBy('author')->pluck('author')->toArray();
+        $filters['genre'] = Book::groupBy('genre')->pluck('genre')->toArray();
+        $filters['publisher']  = Book::groupBy('publisher')->pluck('publisher')->toArray();
+        $filters['published_at'] = Book::selectRaw('YEAR(published_at) AS year')
+                                    ->distinct()
+                                    ->orderBy('year', 'desc')
+                                    ->pluck('year')
+                                    ->toArray();
+        return response()->json([
+            'success'   => true,
+            'data'      => $filters,
         ]);
     }
 

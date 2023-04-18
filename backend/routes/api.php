@@ -22,6 +22,7 @@ Route::get('/faker/books', 'App\Http\Controllers\BookController@getBooksFromFake
 
 Route::prefix('books')->group(function () {
     Route::get('/', 'App\Http\Controllers\BookController@index');
+    Route::get('/filters', 'App\Http\Controllers\BookController@filters');
     Route::get('/{bookId}', 'App\Http\Controllers\BookController@getBookById');
     Route::post('/', 'App\Http\Controllers\BookController@store');
     Route::put('/{bookId}', 'App\Http\Controllers\BookController@update');

@@ -6,6 +6,22 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 const routes = [
   {
     path: '/',
+    name: 'Index',
+    component: () => import('@/views/system/Index.vue'),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/view/:bookId',
+    name: 'HomeViewBook',
+    component: () => import('@/views/system/ViewProduct.vue'),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: DefaultLayout,
     redirect: '/books',

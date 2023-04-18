@@ -1,6 +1,41 @@
 <template>
   <div>
-    <form class="row g-3">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="justify-content-center">
+          <img :src="bookData.image" class="product-image" />
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="justify-content-center">
+          <div class="heading">
+            <h1>{{ bookData.title }}</h1>
+          </div>
+          <h3>Author: {{ bookData.author }}</h3>
+          <hr />
+          <p>
+            Description: <b>{{ bookData.description }}</b>
+          </p>
+          <hr />
+          <p>
+            ISBN: <b>{{ bookData.isbn }}</b>
+          </p>
+          <hr />
+          <p>
+            Genre: <b>{{ bookData.genre }}</b>
+          </p>
+          <hr />
+          <p>
+            Published Date: <b>{{ bookData.published_at }}</b>
+          </p>
+          <hr />
+          <p>
+            Publisher: <b>{{ bookData.publisher }}</b>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- <form class="row g-3">
       <div class="col-md-6">
         <label for="title" class="form-label">Title</label>
         <input
@@ -76,7 +111,7 @@
         <label for="image" class="form-label">Image:</label>
         <img :src="bookData.image" />
       </div>
-    </form>
+    </form> -->
   </div>
 </template>
 <style scoped></style>
@@ -112,3 +147,13 @@ export default {
   },
 }
 </script>
+<style scoped>
+.heading {
+  margin-bottom: 5pc;
+}
+
+.product-image {
+  width: 400px;
+  height: auto;
+}
+</style>

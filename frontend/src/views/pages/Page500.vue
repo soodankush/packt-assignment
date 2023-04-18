@@ -10,15 +10,17 @@
               The page you are looking for is temporarily unavailable.
             </p>
           </span>
-          <CInputGroup class="input-prepend">
-            <CInputGroupText>
-              <CIcon icon="cil-magnifying-glass" />
-            </CInputGroupText>
-            <CFormInput type="text" placeholder="What are you looking for?" />
-            <CButton color="info">Search</CButton>
-          </CInputGroup>
         </CCol>
       </CRow>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="go-to-home-btn">
+            <button class="btn btn-primary" @click="goToHome">
+              Go to Home
+            </button>
+          </div>
+        </div>
+      </div>
     </CContainer>
   </div>
 </template>
@@ -26,5 +28,10 @@
 <script>
 export default {
   name: 'Page500',
+  methods: {
+    goToHome() {
+      this.$router.push('/')
+    },
+  },
 }
 </script>
