@@ -2,7 +2,7 @@
 
 ## API Documentation link
 
-The APIs have been published on the postman. Click on [API Documentation](https://documenter.getpostman.com/view/8610000/2s93Xzyi9N#56b3c346-0d56-4dd6-90ec-5973a5429c16) to view the documentation for the APIs.
+The APIs have been published on the postman. Click on [API Documentation](https://documenter.getpostman.com/view/8610000/2s93Xzyi9N#ea354f91-d6f5-4c90-b07e-f7a68e766d4d) to view the documentation for the APIs.
 
 ## API functionalities
 
